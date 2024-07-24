@@ -1,0 +1,41 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+const form = document.querySelector(".message-form");
+const messages = document.querySelector("#resposta");
+const textarea = document.querySelector("textarea");
+
+const API_KEY = "AIzaSyDF6_FBwX5fAuESwcQv5n-h_w0osNeDzYM";
+const genAI = new GoogleGenerativeAI(API_KEY);
+
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+const chat = model.startChat();
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const message = textarea.value.trim();
+  if (message === "") return;
+
+  const messageUsuario = document.createElement("div");
+  messageUsuario.classList.add("message-usuario");
+  messageUsuario.innerHTML = `<span>${message}</span>`;
+  messages.appendChild(messageUsuario);
+
+  textarea.value = "";
+
+  const result = await chat.sendMessageStream(message);
+
+  let answer = "";
+
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("message");
+  messageElement.innerHTML = "";
+  messages.appendChild(messageElement);
+  for await (const chunk of result.stream) {
+    const chunkText = chunk.text();
+    console.log(chunkText);
+    answer += chunkText;
+    messageElement.innerHTML = marked.parse(answer);
+    messages.scrollTop = messages.scrollHeight;
+  }
+});
