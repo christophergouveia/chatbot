@@ -38,4 +38,37 @@ form.addEventListener("submit", async (e) => {
     messageElement.innerHTML = marked.parse(answer);
     messages.scrollTop = messages.scrollHeight;
   }
+  fetch("http://localhost:3000/api/newMessage", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: answer,
+      isGPT: true,
+    }),
+  }).then((response) => response.json())
+    .then((data) => {
+      console.log("Sucesso:", data);
+    })
+    .catch((error) => {
+      console.error("Erro:", error);
+    });
+    //
+    fetch("http://localhost:3000/api/newMessage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: message,
+        isGPT: false,
+      }),
+    }).then((response) => response.json())
+      .then((data) => {
+        console.log("Sucesso:", data);
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
 });
