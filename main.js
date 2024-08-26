@@ -1,9 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import config from './config.json' with { type: "json" }; 
 const form = document.querySelector(".message-form");
 const messages = document.querySelector("#resposta");
 const textarea = document.querySelector("textarea");
 
-const API_KEY = "AIzaSyDF6_FBwX5fAuESwcQv5n-h_w0osNeDzYM";
+const API_KEY = config.GOOGLE_API_KEY
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -33,7 +34,6 @@ form.addEventListener("submit", async (e) => {
   messages.appendChild(messageElement);
   for await (const chunk of result.stream) {
     const chunkText = chunk.text();
-    console.log(chunkText);
     answer += chunkText;
     messageElement.innerHTML = marked.parse(answer);
     messages.scrollTop = messages.scrollHeight;
