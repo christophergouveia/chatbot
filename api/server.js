@@ -48,7 +48,6 @@ async function verifyDatabases() {
 
 app.post("/api/newMessage", (req, res) => {
   const { message, isGPT } = req.body;
-  //check if isGPT doesnt exists, not if aren t true or false
   if(!message || typeof isGPT !== "boolean") {
     return res.status(400).json({ message: "Por favor, preencha todos os campos!" });
   }
@@ -58,11 +57,11 @@ app.post("/api/newMessage", (req, res) => {
   });
   newMessage
     .save()
-    .then((msg) => {
+    .then(() => {
       res.status(201).json({ message: "Mensagem salva com sucesso!" });
     })
     .catch((err) => {
-      res.status(500).json({ message: "Erro ao salvar a mensagem!" });
+      res.status(500).json({ message: "Erro ao salvar a mensagem!", error: err });
     });
 });
 
