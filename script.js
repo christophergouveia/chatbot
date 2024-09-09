@@ -24,8 +24,24 @@ function sendMessage(message, isGPT) {
     }),
   })
     .then((response) => response.json())
-    .then((data) => {
-    })
+    .then((data) => {})
+    .catch((error) => {
+      console.error("Erro:", error);
+    });
+}
+
+function sendIP(ip) {
+  fetch("http://localhost:3000/api/newAccess", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ip,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {})
     .catch((error) => {
       console.error("Erro:", error);
     });
@@ -62,4 +78,11 @@ form.addEventListener("submit", async (e) => {
 
   sendMessage(message, false);
   sendMessage(answer, true);
+  async function pegarIP() {
+    const response = await fetch("https://api.ipify.org?format=json");
+    const data = await response.json();
+    return data.ip;
+  }
+  const ip = await pegarIP();
+  sendIP(ip);
 });

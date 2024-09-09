@@ -13,6 +13,7 @@ app.use(function (req, res, next) {
   next();
 });
 const { messageSchema } = require("./schemas/messagesSchema.js");
+const { ipSchema } = require("./schemas/ipSchema.js");
 require("dotenv").config();
 const uri = process.env.VITE_MONGODB_SERVER;
 mongoose.connect(uri);
@@ -26,6 +27,7 @@ const client = new MongoClient(uri, {
 });
 
 const Messages = mongoose.model("Messages", messageSchema);
+const IPs = mongoose.model("Acessos", ipSchema);
 async function run() {
   try {
     await client.connect();
@@ -61,6 +63,24 @@ app.post("/api/newMessage", (req, res) => {
     })
     .catch((err) => {
       res.status(500).json({ message: "Erro ao salvar a mensagem!", error: err });
+    });
+});
+
+app.post("/api/newAccess", (req, res) => {
+  const { ip } = req.body;
+  if(!ip) {
+    return res.status(400).json({ message: "Por favor, preencha todos os campos!" });
+  }
+  const newIP = new IPs({
+    ip: ip,
+  });
+  newIP
+    .save()
+    .then(() => {
+      res.status(201).json({ message: "IP salvo com sucesso!" });
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Erro ao salvar o IP!", error: err });
     });
 });
 
