@@ -13,9 +13,8 @@ app.use(function (req, res, next) {
   next();
 });
 const { messageSchema } = require("./schemas/messagesSchema.js");
-const config = require("./config.json");
-const uri = config.mongodb_server;
-
+require("dotenv").config();
+const uri = process.env.VITE_MONGODB_SERVER;
 mongoose.connect(uri);
 
 const client = new MongoClient(uri, {

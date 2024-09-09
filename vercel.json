@@ -1,3 +1,0 @@
-{
-    "rewrites": [{ "source": "/config.json", "destination": "/" }]
-  }
