@@ -32,6 +32,8 @@ async function run() {
   try {
     await client.connect();
     await client.db("admin").command({ ping: 1 });
+    const res = await client.db("test").collection("messages").find();
+    console.log(res)
     console.log("Conectado com sucesso ao MongoDB!");
   } finally {
     await client.close();
@@ -84,8 +86,8 @@ app.post("/api/newAccess", (req, res) => {
     });
 });
 
-app.listen(3000, () => {
-  console.log("Servidor iniciado na porta 3000");
+app.listen(80, () => {
+  console.log("Servidor iniciado na porta 80");
 });
 
 run();
