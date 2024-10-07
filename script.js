@@ -96,5 +96,9 @@ async function pegarIP() {
   const data = await response.json();
   return data.ip;
 }
-const ip = await pegarIP();
-sendIP(ip);
+
+async function main() {
+  const ip = await pegarIP();
+  sendIP(ip);
+}
+main();
