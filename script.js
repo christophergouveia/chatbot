@@ -16,8 +16,10 @@ const model = genAI.getGenerativeModel({
 
 const chat = model.startChat();
 
+enviarMensagem("Eai parceiro!");
+
 function sendMessage(message, isGPT) {
-  fetch("http://localhost:3000/api/newMessage", {
+  fetch("https://server-node-chatbot-uza5.onrender.com/api/newMessage", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +37,7 @@ function sendMessage(message, isGPT) {
 }
 
 function sendIP(ip) {
-  fetch("http://localhost:3000/api/newAccess", {
+  fetch("https://server-node-chatbot-uza5.onrender.com/api/newAccess", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -51,18 +53,16 @@ function sendIP(ip) {
     });
 }
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+async function enviarMensagem(mensagem) {
 
-  const message = textarea.value.trim();
+  const message = mensagem.trim();
   if (message === "") return;
 
   const messageUsuario = document.createElement("div");
   messageUsuario.classList.add("message-usuario");
   messageUsuario.innerHTML = `<span>${message}</span>`;
   messages.appendChild(messageUsuario);
-
-  textarea.value = "";
+  messages.scrollTop = messages.scrollHeight;
 
   const result = await chat.sendMessageStream(message);
 
@@ -82,11 +82,19 @@ form.addEventListener("submit", async (e) => {
 
   sendMessage(message, false);
   sendMessage(answer, true);
-  async function pegarIP() {
-    const response = await fetch("https://api.ipify.org?format=json");
-    const data = await response.json();
-    return data.ip;
-  }
-  const ip = await pegarIP();
-  sendIP(ip);
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  await enviarMensagem(textarea.value);
+  textarea.value = "";
 });
+
+
+async function pegarIP() {
+  const response = await fetch("https://api.ipify.org?format=json");
+  const data = await response.json();
+  return data.ip;
+}
+const ip = await pegarIP();
+sendIP(ip);
