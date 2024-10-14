@@ -10,10 +10,9 @@ body {
 
 #container {
   border-radius: 0.512em;
-  height: 100dvh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 #chat-container {
@@ -22,7 +21,7 @@ body {
   max-width: 950px;
 }
 
-#chat-container > h1  {
+#chat-container > h1 {
   text-align: center;
 }
 
@@ -31,7 +30,7 @@ body {
 }
 
 #resposta-container {
-  max-height: 500px;
+  max-height: 350px;
   overflow-y: scroll;
 }
 
@@ -91,7 +90,24 @@ button {
 }
 
 footer {
+  width: 100%;
+  padding: 10px;
   text-align: center;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   font-weight: bold;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  #chat-container {
+    max-width: 90%;
+  }
+
+  textarea {
+    font-size: x-large;
+  }
+
+  button {
+    font-size: medium;
+  }
 }

@@ -76,7 +76,7 @@ async function enviarMensagem(mensagem) {
     const chunkText = chunk.text();
     answer += chunkText;
     messageElement.innerHTML = marked.parse(answer);
-    messages.scrollTop = messages.scrollHeight;
+    document.querySelector("#resposta-container").scrollTo(0, document.querySelector("#resposta-container").scrollHeight);
   }
 
   sendMessage(message, false);
