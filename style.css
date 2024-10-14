@@ -1,6 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: x-large;
 }
 
 * {
@@ -8,18 +9,30 @@ body {
 }
 
 #container {
-  display: block;
   border-radius: 0.512em;
-  max-width: 950px;
-  margin: 8rem auto;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-#container > h1  {
+#chat-container {
+  display: block;
+  margin: auto;
+  max-width: 950px;
+}
+
+#chat-container > h1  {
   text-align: center;
 }
 
 #app {
   border: 4px solid gray;
+}
+
+#resposta-container {
+  max-height: 500px;
+  overflow-y: scroll;
 }
 
 .chat-container {
@@ -31,7 +44,7 @@ body {
 .resposta {
   background-color: rgb(194, 194, 194);
   padding: 12px;
-  overflow-y: scroll;
+  border-radius: 0.512em;
   flex: 1;
 }
 
@@ -63,8 +76,9 @@ textarea {
   padding: 12px;
   border: 2px solid gray;
   border-radius: 0.512em;
-  margin: 0 6px;
+  margin: 12px auto;
   resize: none;
+  font-size: xx-large;
 }
 
 button {
@@ -73,5 +87,11 @@ button {
   border: 2px solid gray;
   border-radius: 0.512em;
   margin: 0 6px;
+  font-size: large;
 }
 
+footer {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}

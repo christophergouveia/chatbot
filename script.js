@@ -16,8 +16,6 @@ const model = genAI.getGenerativeModel({
 
 const chat = model.startChat();
 
-enviarMensagem("Eai parceiro!");
-
 function sendMessage(message, isGPT) {
   fetch("https://server-node-chatbot-uza5.onrender.com/api/newMessage", {
     method: "POST",
@@ -54,6 +52,7 @@ function sendIP(ip) {
 }
 
 async function enviarMensagem(mensagem) {
+  textarea.value = "";
 
   const message = mensagem.trim();
   if (message === "") return;
@@ -87,7 +86,6 @@ async function enviarMensagem(mensagem) {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   await enviarMensagem(textarea.value);
-  textarea.value = "";
 });
 
 
