@@ -30,7 +30,7 @@ body {
 }
 
 #resposta-container {
-  max-height: 350px;
+  max-height: 250px;
   overflow-y: scroll;
 }
 
@@ -108,6 +108,12 @@ footer {
   }
 
   button {
+    font-size: medium;
+  }
+  #chat-container > h1 {
+    font-size: x-large;
+  }
+  footer {
     font-size: medium;
   }
 }
