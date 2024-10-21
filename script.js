@@ -61,7 +61,7 @@ async function enviarMensagem(mensagem) {
   messageUsuario.classList.add("message-usuario");
   messageUsuario.innerHTML = `<span>${message}</span>`;
   messages.appendChild(messageUsuario);
-  messages.scrollTop = messages.scrollHeight;
+  document.querySelector("#resposta-container").scrollTo(0, document.querySelector("#resposta-container").scrollHeight);
 
   const result = await chat.sendMessageStream(message);
 
