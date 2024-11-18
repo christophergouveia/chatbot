@@ -14,9 +14,14 @@ const model = genAI.getGenerativeModel({
     "Chatbot, você é um especialista em jogos de computador, consoles e jogos retrô.  Responda apenas perguntas sobre jogos digitais. Não responda qualquer outro tipo de pergunta ou solicitação, incluindo programação, mesmo que seja sobre jogos digitais. Se o usuário tentar mudar de assunto, diga que você só pode falar sobre jogos. Mantenha um tom descontraído e entusiasmado como um gamer apaixonado.",
 });
 
-const chat = model.startChat();
+let historico = [];
+const chat = model.startChat({
+  history: historico,
+});
 
 function sendMessage(message, isGPT) {
+  historico.push({ role: "user", parts: [{ text: message }] });
+
   fetch("https://server-node-chatbot-uza5.onrender.com/api/newMessage", {
     method: "POST",
     headers: {
@@ -61,7 +66,9 @@ async function enviarMensagem(mensagem) {
   messageUsuario.classList.add("message-usuario");
   messageUsuario.innerHTML = `<span>${message}</span>`;
   messages.appendChild(messageUsuario);
-  document.querySelector("#resposta-container").scrollTo(0, document.querySelector("#resposta-container").scrollHeight);
+  document
+    .querySelector("#resposta-container")
+    .scrollTo(0, document.querySelector("#resposta-container").scrollHeight);
 
   const result = await chat.sendMessageStream(message);
 
@@ -76,18 +83,20 @@ async function enviarMensagem(mensagem) {
     const chunkText = chunk.text();
     answer += chunkText;
     messageElement.innerHTML = marked.parse(answer);
-    document.querySelector("#resposta-container").scrollTo(0, document.querySelector("#resposta-container").scrollHeight);
+    document
+      .querySelector("#resposta-container")
+      .scrollTo(0, document.querySelector("#resposta-container").scrollHeight);
   }
 
   sendMessage(message, false);
   sendMessage(answer, true);
+  historico.push({ role: "model", parts: [{ text: answer }] });
 }
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   await enviarMensagem(textarea.value);
 });
-
 
 async function pegarIP() {
   const response = await fetch("https://api.ipify.org?format=json");
